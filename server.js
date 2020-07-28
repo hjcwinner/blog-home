@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
-const mongoose = require('mongoose')
+const dotenv = require('dotenv')
+dotenv.config()
 
 
 const userRoutes = require('./routes/user')
@@ -9,12 +10,8 @@ const bodyParser = require('body-parser')
 
 
 //database
-const MONGODB_URI = "mongodb+srv://blog:hjc8056107@cluster0.smqqa.mongodb.net/blog?retryWrites=true&w=majority"
-
-mongoose
-    .connect(MONGODB_URI, { useNewUrlParser: true , useUnifiedTopology: true })
-    .then(() => console.log("server start"))
-    .catch((err) => console.log(err.message))
+require('./config/database')
+    
 
 //middleware
 app.use(morgan("dev"))
@@ -27,7 +24,7 @@ app.use('/user', userRoutes)
 
 
 
-const port = 8080
+const port = process.env.PORT
 app.listen(port, console.log(`server started at ${port}`))
 
 
